@@ -1,14 +1,19 @@
 import os
-import time
+from lib.ChangeIP import ChangeIP
+from lib.Get import Get
 
 from selenium import webdriver
 
-def ChangeIP():
-    os.system('/etc/init.d/tor restart')
-    time.sleep(1)
 
-driver = webdriver.Firefox(executable_path=f'{os.getcwd()}/geckodriver')
 
-driver.get('http://icanhazip.com/')
-print(driver.page_source)
+get = Get()
+password = get.GetPassword()
+port = get.GetPort()
+
+changer = ChangeIP(password, port)
+
+driver = webdriver.Firefox(firefox_profile=changer.SetProfile(), executable_path=f'{os.getcwd()}/geckodriver')
+
+
 driver.quit()
+
